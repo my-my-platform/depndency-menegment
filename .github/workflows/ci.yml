@@ -1,0 +1,11 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  ci:
+    uses: my-my-platform/platform-ci/.github/workflows/maven-ci.yml@main
+    secrets: inherit
