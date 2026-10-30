@@ -12,3 +12,16 @@ jobs:
     with:
       deploy: true
     secrets: inherit
+
+  trigger-renovate:
+    needs: ci
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: [self-hosted, linux, java]
+    steps:
+      - name: Run Renovate in platform
+        run: |
+          curl -fsS -X POST \
+            -H "Authorization: Bearer ${{ secrets.RENOVATE_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/my-my-platform/platform/actions/workflows/renovate.yml/dispatches \
+            -d '{"ref":"main"}'
