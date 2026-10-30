@@ -27,6 +27,6 @@ jobs:
           TOKEN: ${{ secrets.RENOVATE_TOKEN }}
 
       - name: Run Renovate in platform
-        run: |
-          curl -sS -X POST \
-            -w
+        run: curl -sS -X POST -w "\nstatus=%{http_code}\n" -H "Authorization: Bearer $TOKEN" -H "Accept: application/vnd.github+json" -d '{"ref":"main"}' https://api.github.com/repos/my-my-platform/platform/actions/workflows/renovate.yml/dispatches
+        env:
+          TOKEN: ${{ secrets.RENOVATE_TOKEN }}
