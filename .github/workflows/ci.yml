@@ -18,11 +18,12 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: [self-hosted, linux, java]
     steps:
-       - name: Debug token
+      - name: Debug token
         run: echo "token length=${#TOKEN}"
         env:
           TOKEN: ${{ secrets.RENOVATE_TOKEN }}
-       - name: Run Renovate in platform
+
+      - name: Run Renovate in platform
         run: |
           curl -fsS -X POST \
             -H "Authorization: Bearer ${{ secrets.RENOVATE_TOKEN }}" \
