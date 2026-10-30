@@ -18,15 +18,15 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: [self-hosted, linux, java]
     steps:
-      - name: Debug token
-        run: echo "token length=${#TOKEN}"
+      - name: Check token
+        run: |
+          echo "prefix=${TOKEN:0:4} length=${#TOKEN}"
+          echo "hash=$(printf '%s' "$TOKEN" | sha256sum | cut -c1-12)"
+          curl -s -o /dev/null -w "github api status=%{http_code}\n" -H "Authorization: Bearer $TOKEN" https://api.github.com/user
         env:
-          TOKEN: ${{ secrets.RENOVAT_TOKEN }}
+          TOKEN: ${{ secrets.RENOVATE_TOKEN }}
 
       - name: Run Renovate in platform
         run: |
-          curl -fsS -X POST \
-            -H "Authorization: Bearer ${{ secrets.RENOVATE_TOKEN }}" \
-            -H "Accept: application/vnd.github+json" \
-            https://api.github.com/repos/my-my-platform/platform/actions/workflows/renovate.yml/dispatches \
-            -d '{"ref":"main"}'
+          curl -sS -X POST \
+            -w
