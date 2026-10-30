@@ -21,7 +21,7 @@ jobs:
       - name: Debug token
         run: echo "token length=${#TOKEN}"
         env:
-          TOKEN: ${{ secrets.RENOVATE_TOKEN }}
+          TOKEN: ${{ secrets.RENOVAT_TOKEN }}
 
       - name: Run Renovate in platform
         run: |
